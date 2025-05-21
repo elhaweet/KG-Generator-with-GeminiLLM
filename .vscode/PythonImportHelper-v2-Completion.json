@@ -1,0 +1,171 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "google.generativeai",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "google.generativeai",
+        "description": "google.generativeai",
+        "detail": "google.generativeai",
+        "documentation": {}
+    },
+    {
+        "label": "Network",
+        "importPath": "pyvis.network",
+        "description": "pyvis.network",
+        "isExtraImport": true,
+        "detail": "pyvis.network",
+        "documentation": {}
+    },
+    {
+        "label": "networkx",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "networkx",
+        "description": "networkx",
+        "detail": "networkx",
+        "documentation": {}
+    },
+    {
+        "label": "random",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "random",
+        "description": "random",
+        "detail": "random",
+        "documentation": {}
+    },
+    {
+        "label": "GEMINI_API_KEY",
+        "kind": 5,
+        "importPath": "gemini_kg_extractor",
+        "description": "gemini_kg_extractor",
+        "peekOfCode": "GEMINI_API_KEY = os.getenv(\"GEMINI_API_KEY\")\n# Configure Gemini API\ngenai.configure(api_key=GEMINI_API_KEY)\nmodel = genai.GenerativeModel('gemini-1.5-flash')\n# Read the text data\nwith open('rowData.text', 'r', encoding='utf-8') as file:\n    text_data = file.read()\n# Enhanced prompt for workflow-focused triple extraction\nprompt = f\"\"\"\nExtract knowledge graph triples from the following text in the format (subject, predicate, object).",
+        "detail": "gemini_kg_extractor",
+        "documentation": {}
+    },
+    {
+        "label": "model",
+        "kind": 5,
+        "importPath": "gemini_kg_extractor",
+        "description": "gemini_kg_extractor",
+        "peekOfCode": "model = genai.GenerativeModel('gemini-1.5-flash')\n# Read the text data\nwith open('rowData.text', 'r', encoding='utf-8') as file:\n    text_data = file.read()\n# Enhanced prompt for workflow-focused triple extraction\nprompt = f\"\"\"\nExtract knowledge graph triples from the following text in the format (subject, predicate, object).\nFocus specifically on workflow relationships, processes, and automation opportunities.\nLook for:\n1. Sequential steps or processes (X leads to Y, X happens before Y, X is followed by Y)",
+        "detail": "gemini_kg_extractor",
+        "documentation": {}
+    },
+    {
+        "label": "prompt",
+        "kind": 5,
+        "importPath": "gemini_kg_extractor",
+        "description": "gemini_kg_extractor",
+        "peekOfCode": "prompt = f\"\"\"\nExtract knowledge graph triples from the following text in the format (subject, predicate, object).\nFocus specifically on workflow relationships, processes, and automation opportunities.\nLook for:\n1. Sequential steps or processes (X leads to Y, X happens before Y, X is followed by Y)\n2. Causal relationships (X causes Y, X enables Y, X results in Y)\n3. Dependencies (X requires Y, X depends on Y, X needs Y)\n4. Actions and their agents (X performs Y, X uses Y for Z, X implements Y)\n5. Inputs and outputs of processes (X produces Y, X consumes Y, X transforms into Y)\n6. Workflow stages (X is first stage of Y, X is part of process Y)",
+        "detail": "gemini_kg_extractor",
+        "documentation": {}
+    },
+    {
+        "label": "response",
+        "kind": 5,
+        "importPath": "gemini_kg_extractor",
+        "description": "gemini_kg_extractor",
+        "peekOfCode": "response = model.generate_content(prompt)\nresponse_text = response.text\n# Extract the Python list from the response\n# This assumes Gemini returns properly formatted Python code\ntriples_code = response_text.strip()\nif \"```python\" in triples_code:\n    # Extract code between Python code blocks\n    triples_code = triples_code.split(\"```python\")[1].split(\"```\")[0].strip()\nelif \"```\" in triples_code:\n    # Extract code between generic code blocks",
+        "detail": "gemini_kg_extractor",
+        "documentation": {}
+    },
+    {
+        "label": "response_text",
+        "kind": 5,
+        "importPath": "gemini_kg_extractor",
+        "description": "gemini_kg_extractor",
+        "peekOfCode": "response_text = response.text\n# Extract the Python list from the response\n# This assumes Gemini returns properly formatted Python code\ntriples_code = response_text.strip()\nif \"```python\" in triples_code:\n    # Extract code between Python code blocks\n    triples_code = triples_code.split(\"```python\")[1].split(\"```\")[0].strip()\nelif \"```\" in triples_code:\n    # Extract code between generic code blocks\n    triples_code = triples_code.split(\"```\")[1].split(\"```\")[0].strip()",
+        "detail": "gemini_kg_extractor",
+        "documentation": {}
+    },
+    {
+        "label": "triples_code",
+        "kind": 5,
+        "importPath": "gemini_kg_extractor",
+        "description": "gemini_kg_extractor",
+        "peekOfCode": "triples_code = response_text.strip()\nif \"```python\" in triples_code:\n    # Extract code between Python code blocks\n    triples_code = triples_code.split(\"```python\")[1].split(\"```\")[0].strip()\nelif \"```\" in triples_code:\n    # Extract code between generic code blocks\n    triples_code = triples_code.split(\"```\")[1].split(\"```\")[0].strip()\n# Execute the code to get the triples list\ntry:\n    # Safe way to evaluate the Python expression",
+        "detail": "gemini_kg_extractor",
+        "documentation": {}
+    },
+    {
+        "label": "G",
+        "kind": 5,
+        "importPath": "gemini_kg_extractor",
+        "description": "gemini_kg_extractor",
+        "peekOfCode": "G = nx.DiGraph()\n# Add triples to the graph\nfor subj, pred, obj in triples:\n    G.add_node(subj)\n    G.add_node(obj)\n    G.add_edge(subj, obj, label=pred)\n# Ensure graph connectivity by connecting disconnected components\ncomponents = list(nx.weakly_connected_components(G))\nif len(components) > 1:\n    print(f\"⚠️ Found {len(components)} disconnected components. Adding connections...\")",
+        "detail": "gemini_kg_extractor",
+        "documentation": {}
+    },
+    {
+        "label": "components",
+        "kind": 5,
+        "importPath": "gemini_kg_extractor",
+        "description": "gemini_kg_extractor",
+        "peekOfCode": "components = list(nx.weakly_connected_components(G))\nif len(components) > 1:\n    print(f\"⚠️ Found {len(components)} disconnected components. Adding connections...\")\n    # Get a list of all nodes\n    all_nodes = list(G.nodes())\n    # Connect disconnected components\n    for i in range(len(components) - 1):\n        # Get a random node from each component\n        source_component = list(components[i])\n        target_component = list(components[i + 1])",
+        "detail": "gemini_kg_extractor",
+        "documentation": {}
+    },
+    {
+        "label": "in_degree",
+        "kind": 5,
+        "importPath": "gemini_kg_extractor",
+        "description": "gemini_kg_extractor",
+        "peekOfCode": "in_degree = dict(G.in_degree())\nout_degree = dict(G.out_degree())\n# Nodes with no incoming edges are potential start points\nstart_nodes = [node for node, degree in in_degree.items() if degree == 0]\n# Nodes with no outgoing edges are potential end points\nend_nodes = [node for node, degree in out_degree.items() if degree == 0]\nprint(f\"Potential workflow start points: {start_nodes}\")\nprint(f\"Potential workflow end points: {end_nodes}\")\n# === Visualize using PyVis with enhanced styling ===\nnet = Network(notebook=True, height=\"700px\", width=\"100%\", directed=True)",
+        "detail": "gemini_kg_extractor",
+        "documentation": {}
+    },
+    {
+        "label": "out_degree",
+        "kind": 5,
+        "importPath": "gemini_kg_extractor",
+        "description": "gemini_kg_extractor",
+        "peekOfCode": "out_degree = dict(G.out_degree())\n# Nodes with no incoming edges are potential start points\nstart_nodes = [node for node, degree in in_degree.items() if degree == 0]\n# Nodes with no outgoing edges are potential end points\nend_nodes = [node for node, degree in out_degree.items() if degree == 0]\nprint(f\"Potential workflow start points: {start_nodes}\")\nprint(f\"Potential workflow end points: {end_nodes}\")\n# === Visualize using PyVis with enhanced styling ===\nnet = Network(notebook=True, height=\"700px\", width=\"100%\", directed=True)\n# Add nodes with styling",
+        "detail": "gemini_kg_extractor",
+        "documentation": {}
+    },
+    {
+        "label": "start_nodes",
+        "kind": 5,
+        "importPath": "gemini_kg_extractor",
+        "description": "gemini_kg_extractor",
+        "peekOfCode": "start_nodes = [node for node, degree in in_degree.items() if degree == 0]\n# Nodes with no outgoing edges are potential end points\nend_nodes = [node for node, degree in out_degree.items() if degree == 0]\nprint(f\"Potential workflow start points: {start_nodes}\")\nprint(f\"Potential workflow end points: {end_nodes}\")\n# === Visualize using PyVis with enhanced styling ===\nnet = Network(notebook=True, height=\"700px\", width=\"100%\", directed=True)\n# Add nodes with styling\nfor node in G.nodes():\n    if node in start_nodes:",
+        "detail": "gemini_kg_extractor",
+        "documentation": {}
+    },
+    {
+        "label": "end_nodes",
+        "kind": 5,
+        "importPath": "gemini_kg_extractor",
+        "description": "gemini_kg_extractor",
+        "peekOfCode": "end_nodes = [node for node, degree in out_degree.items() if degree == 0]\nprint(f\"Potential workflow start points: {start_nodes}\")\nprint(f\"Potential workflow end points: {end_nodes}\")\n# === Visualize using PyVis with enhanced styling ===\nnet = Network(notebook=True, height=\"700px\", width=\"100%\", directed=True)\n# Add nodes with styling\nfor node in G.nodes():\n    if node in start_nodes:\n        net.add_node(node, color=\"#4CAF50\", title=\"Start Point\", shape=\"diamond\", size=25)  # Green for start\n    elif node in end_nodes:",
+        "detail": "gemini_kg_extractor",
+        "documentation": {}
+    },
+    {
+        "label": "net",
+        "kind": 5,
+        "importPath": "gemini_kg_extractor",
+        "description": "gemini_kg_extractor",
+        "peekOfCode": "net = Network(notebook=True, height=\"700px\", width=\"100%\", directed=True)\n# Add nodes with styling\nfor node in G.nodes():\n    if node in start_nodes:\n        net.add_node(node, color=\"#4CAF50\", title=\"Start Point\", shape=\"diamond\", size=25)  # Green for start\n    elif node in end_nodes:\n        net.add_node(node, color=\"#F44336\", title=\"End Point\", shape=\"diamond\", size=25)  # Red for end\n    else:\n        # Check if it's a process/action node\n        process_keywords = [\"process\", \"analysis\", \"learning\", \"processing\", \"automation\", \"development\"]",
+        "detail": "gemini_kg_extractor",
+        "documentation": {}
+    }
+]
